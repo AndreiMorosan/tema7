@@ -2,15 +2,17 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:temeflutter/actions/genre_action.dart';
-import 'package:temeflutter/actions/movie_search.dart';
-import 'package:temeflutter/actions/quality_action.dart';
-import 'package:temeflutter/container/genre_container.dart';
-import 'package:temeflutter/container/is_loading_container.dart';
-import 'package:temeflutter/container/movies_container.dart';
-import 'package:temeflutter/container/quality_container.dart';
+import 'package:temeflutter/actions/movies/genre_action.dart';
+
+import 'package:temeflutter/actions/movies/movie_search.dart';
+import 'package:temeflutter/actions/movies/quality_action.dart';
+import 'package:temeflutter/container/movies/genre_container.dart';
+import 'package:temeflutter/container/movies/is_loading_container.dart';
+import 'package:temeflutter/container/movies/movies_container.dart';
+import 'package:temeflutter/container/movies/quality_container.dart';
 import 'package:temeflutter/models/app_state.dart';
-import 'package:temeflutter/models/movie.dart';
+
+import 'package:temeflutter/models/movie/movie.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key,required this.title}) : super(key: key);

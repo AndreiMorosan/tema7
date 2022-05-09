@@ -5,7 +5,7 @@ import 'dart:convert';
 
 
 import 'package:http/http.dart';
-import 'package:temeflutter/models/movie.dart';
+import 'package:temeflutter/models/movie/movie.dart';
 
 class MovieApi{
   const MovieApi({required Client client}):assert(client != null),

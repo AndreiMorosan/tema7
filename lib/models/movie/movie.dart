@@ -13,9 +13,8 @@ abstract class Movie implements Built<Movie,MovieBuilder>{
 
 
   factory Movie.fromJson(dynamic json) {
-     serializers.deserializeWith(serializer, json);
+    return serializers.deserializeWith(serializer, json)!;
 
-     return Movie.fromJson(json);
   }
 
   Movie._();
@@ -33,7 +32,7 @@ abstract class Movie implements Built<Movie,MovieBuilder>{
   @BuiltValueField(wireName: 'medium_cover_image')
   String get mediumCoverImage;
 
-  @BuiltValueField(wireName: 'large+cover_image')
+  @BuiltValueField(wireName: 'large_cover_image')
   String get largeCoverImage;
 
   static Serializer<Movie> get serializer => _$movieSerializer;

@@ -4,30 +4,36 @@ library app_state;
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
-import 'package:temeflutter/models/movie.dart';
+import 'package:built_value/serializer.dart';
+import 'package:temeflutter/models/auth/auth_state.dart';
+import 'package:temeflutter/models/movie/movie.dart';
+import 'package:temeflutter/models/movie/movie_state.dart';
+import 'package:temeflutter/models/serializers.dart';
 
 part 'app_state.g.dart';
 
-abstract class AppState implements Built<AppState,AppStateBuilder> {
-  factory AppState([void Function(AppStateBuilder)? updates]) = _$AppState;
+abstract class AppState implements Built<AppState, AppStateBuilder> {
 
-  factory AppState.initiate(){
-    final AppStateBuilder appStateBuilder = AppStateBuilder();
-    appStateBuilder..isLoading = true
-    ..genre = "All"..quality = "All";
-    return appStateBuilder.build();
+  factory AppState([void Function(AppStateBuilder)? updates]) = _$AppState;
+  factory AppState.fromJson(dynamic json) => serializers.deserializeWith(serializer,json)!;
+
+  factory AppState.initialState(){
+    return _$AppState((AppStateBuilder b){
+      b.auth= AuthState.initialState().toBuilder();
+      b.movies=MovieState.initialState().toBuilder();
+    });
   }
 
   AppState._();
 
-  String get genre;
 
-  String get quality;
+  AuthState get auth;
 
-  BuiltList<Movie> get movies;
+  MovieState get movies;
 
+  Map<String, dynamic> get json => serializers.serializeWith(serializer,this) as Map<String,dynamic>;
 
-  bool get isLoading;
+  static Serializer<AppState> get serializer =>_$appStateSerializer;
 
 
 }

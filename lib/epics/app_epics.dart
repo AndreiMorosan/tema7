@@ -1,29 +1,28 @@
 
 import 'package:redux_epics/redux_epics.dart';
-import 'package:temeflutter/actions/movie_search.dart';
+
+import 'package:temeflutter/data/auth_api.dart';
 import 'package:temeflutter/data/movie_api.dart';
+import 'package:temeflutter/epics/auth_epics.dart';
+import 'package:temeflutter/epics/movie_epics.dart';
 import 'package:temeflutter/models/app_state.dart';
-import 'package:temeflutter/models/movie.dart';
+
 
 class AppEpics {
-  const AppEpics({required MovieApi searchMovie})
-      :assert(searchMovie != null),
-        _searchMovie = searchMovie;
+  AppEpics({required AuthApi authApi,required MovieApi movieApi})
+      :assert(authApi != null,),
+        assert(movieApi != null),
+        _authApi = authApi,
+        _movieApi = movieApi;
+
+  final AuthApi _authApi;
+  final MovieApi _movieApi;
 
 
-  final MovieApi _searchMovie;
-
-  Epic<AppState> get epics {
+  Epic<AppState> get epics{
     return combineEpics(<Epic<AppState>>[
-      TypedEpic<AppState, MovieSearch>(_getMoviesSearch),
+      AuthEpics(authApi: _authApi).epics,
+      MovieEpics(searchMovie: _movieApi).epics,
     ]);
-  }
-
-  Stream<dynamic> _getMoviesSearch(Stream<MovieSearch> actions,
-      EpicStore<AppState> store) {
-    return actions.asyncMap((MovieSearch action) async =>
-        _searchMovie.getMovies(store.state.genre, store.state.quality)).map((
-        List<Movie> movies) => MovieSearch.succesful(movies)).handleError((
-        dynamic error) => MovieSearch.error(error));
   }
 }

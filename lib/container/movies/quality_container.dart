@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:temeflutter/models/app_state.dart';
-import 'package:temeflutter/models/movie.dart';
+import 'package:temeflutter/models/movie/movie.dart';
 
 class QualityContainer extends StatelessWidget {
   const QualityContainer({Key? key,required this.builder}) : super(key: key);
@@ -15,7 +15,7 @@ class QualityContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector(builder: builder,
         converter: (Store<AppState> store){
-          return store.state.quality;
+          return store.state.movies.quality;
         }
 
     );

@@ -6,29 +6,67 @@ part of app_state;
 // BuiltValueGenerator
 // **************************************************************************
 
+Serializer<AppState> _$appStateSerializer = new _$AppStateSerializer();
+
+class _$AppStateSerializer implements StructuredSerializer<AppState> {
+  @override
+  final Iterable<Type> types = const [AppState, _$AppState];
+  @override
+  final String wireName = 'AppState';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, AppState object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'auth',
+      serializers.serialize(object.auth,
+          specifiedType: const FullType(AuthState)),
+      'movies',
+      serializers.serialize(object.movies,
+          specifiedType: const FullType(MovieState)),
+    ];
+
+    return result;
+  }
+
+  @override
+  AppState deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new AppStateBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'auth':
+          result.auth.replace(serializers.deserialize(value,
+              specifiedType: const FullType(AuthState))! as AuthState);
+          break;
+        case 'movies':
+          result.movies.replace(serializers.deserialize(value,
+              specifiedType: const FullType(MovieState))! as MovieState);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$AppState extends AppState {
   @override
-  final String genre;
+  final AuthState auth;
   @override
-  final String quality;
-  @override
-  final BuiltList<Movie> movies;
-  @override
-  final bool isLoading;
+  final MovieState movies;
 
   factory _$AppState([void Function(AppStateBuilder)? updates]) =>
       (new AppStateBuilder()..update(updates)).build();
 
-  _$AppState._(
-      {required this.genre,
-      required this.quality,
-      required this.movies,
-      required this.isLoading})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(genre, 'AppState', 'genre');
-    BuiltValueNullFieldError.checkNotNull(quality, 'AppState', 'quality');
+  _$AppState._({required this.auth, required this.movies}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(auth, 'AppState', 'auth');
     BuiltValueNullFieldError.checkNotNull(movies, 'AppState', 'movies');
-    BuiltValueNullFieldError.checkNotNull(isLoading, 'AppState', 'isLoading');
   }
 
   @override
@@ -41,27 +79,19 @@ class _$AppState extends AppState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is AppState &&
-        genre == other.genre &&
-        quality == other.quality &&
-        movies == other.movies &&
-        isLoading == other.isLoading;
+    return other is AppState && auth == other.auth && movies == other.movies;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc($jc($jc(0, genre.hashCode), quality.hashCode), movies.hashCode),
-        isLoading.hashCode));
+    return $jf($jc($jc(0, auth.hashCode), movies.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AppState')
-          ..add('genre', genre)
-          ..add('quality', quality)
-          ..add('movies', movies)
-          ..add('isLoading', isLoading))
+          ..add('auth', auth)
+          ..add('movies', movies))
         .toString();
   }
 }
@@ -69,31 +99,21 @@ class _$AppState extends AppState {
 class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState? _$v;
 
-  String? _genre;
-  String? get genre => _$this._genre;
-  set genre(String? genre) => _$this._genre = genre;
+  AuthStateBuilder? _auth;
+  AuthStateBuilder get auth => _$this._auth ??= new AuthStateBuilder();
+  set auth(AuthStateBuilder? auth) => _$this._auth = auth;
 
-  String? _quality;
-  String? get quality => _$this._quality;
-  set quality(String? quality) => _$this._quality = quality;
-
-  ListBuilder<Movie>? _movies;
-  ListBuilder<Movie> get movies => _$this._movies ??= new ListBuilder<Movie>();
-  set movies(ListBuilder<Movie>? movies) => _$this._movies = movies;
-
-  bool? _isLoading;
-  bool? get isLoading => _$this._isLoading;
-  set isLoading(bool? isLoading) => _$this._isLoading = isLoading;
+  MovieStateBuilder? _movies;
+  MovieStateBuilder get movies => _$this._movies ??= new MovieStateBuilder();
+  set movies(MovieStateBuilder? movies) => _$this._movies = movies;
 
   AppStateBuilder();
 
   AppStateBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _genre = $v.genre;
-      _quality = $v.quality;
+      _auth = $v.auth.toBuilder();
       _movies = $v.movies.toBuilder();
-      _isLoading = $v.isLoading;
       _$v = null;
     }
     return this;
@@ -114,18 +134,13 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState build() {
     _$AppState _$result;
     try {
-      _$result = _$v ??
-          new _$AppState._(
-              genre: BuiltValueNullFieldError.checkNotNull(
-                  genre, 'AppState', 'genre'),
-              quality: BuiltValueNullFieldError.checkNotNull(
-                  quality, 'AppState', 'quality'),
-              movies: movies.build(),
-              isLoading: BuiltValueNullFieldError.checkNotNull(
-                  isLoading, 'AppState', 'isLoading'));
+      _$result =
+          _$v ?? new _$AppState._(auth: auth.build(), movies: movies.build());
     } catch (_) {
       late String _$failedField;
       try {
+        _$failedField = 'auth';
+        auth.build();
         _$failedField = 'movies';
         movies.build();
       } catch (e) {

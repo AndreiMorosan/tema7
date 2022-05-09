@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:temeflutter/models/app_state.dart';
-import 'package:temeflutter/models/movie.dart';
+import 'package:temeflutter/models/movie/movie.dart';
 import 'package:meta/meta.dart';
 
 
@@ -17,7 +17,7 @@ class MoviesContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector(builder: builder,
         converter: (Store<AppState> store){
-         return store.state.movies;
+         return store.state.movies.movies;
         }
 
     );

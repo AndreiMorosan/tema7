@@ -40,7 +40,7 @@ class _$MovieSerializer implements StructuredSerializer<Movie> {
       'medium_cover_image',
       serializers.serialize(object.mediumCoverImage,
           specifiedType: const FullType(String)),
-      'large+cover_image',
+      'large_cover_image',
       serializers.serialize(object.largeCoverImage,
           specifiedType: const FullType(String)),
     ];
@@ -55,25 +55,25 @@ class _$MovieSerializer implements StructuredSerializer<Movie> {
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current! as String;
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
         case 'title':
           result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'year':
           result.year = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int))! as int;
           break;
         case 'rating':
           result.rating = serializers.deserialize(value,
-              specifiedType: const FullType(num)) as num;
+              specifiedType: const FullType(num))! as num;
           break;
         case 'runtime':
           result.runtime = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int))! as int;
           break;
         case 'genres':
           result.genres.replace(serializers.deserialize(value,
@@ -83,19 +83,19 @@ class _$MovieSerializer implements StructuredSerializer<Movie> {
           break;
         case 'summary':
           result.summary = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'background_image':
           result.backgroundImage = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'medium_cover_image':
           result.mediumCoverImage = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
-        case 'large+cover_image':
+        case 'large_cover_image':
           result.largeCoverImage = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
